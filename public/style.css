@@ -21,6 +21,7 @@ form {
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+  position: relative;
 }
 input[type="text"] {
   width: 70%;
@@ -123,4 +124,31 @@ button:hover {
     width: 80px;
     height: 100px;
   }
+}
+
+/* Styles for autocomplete suggestions */
+#suggestions {
+  position: absolute;
+  background: white;
+  max-height: 200px;
+  overflow-y: auto;
+  width: calc(70% - 2px);
+  margin-left: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 4px 4px;
+  top: 102%;
+  left: 8%;
+}
+
+.suggestion-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover,
+.suggestion-item:focus {
+  background-color: #007acc;
+  color: white;
+  outline: none;
 }

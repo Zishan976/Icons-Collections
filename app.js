@@ -55,6 +55,38 @@ app.post("/search", async (req, res) => {
   }
 });
 
+// New endpoint for autocomplete suggestions
+app.get("/suggestions", async (req, res) => {
+  const query = req.query.query;
+  if (!query) {
+    return res.json([]);
+  }
+  const url = `https://api.thenounproject.com/v2/icon?query=${query}&limit=10`;
+  const request_data = {
+    url: url,
+    method: "GET",
+  };
+  const headers = oauth.toHeader(oauth.authorize(request_data));
+  try {
+    const response = await axios.get(url, { headers });
+    const icons = response.data.icons || [];
+    // Extract unique icon names (terms)
+    const suggestions = [];
+    const seen = new Set();
+    for (const icon of icons) {
+      if (icon.term && !seen.has(icon.term.toLowerCase())) {
+        seen.add(icon.term.toLowerCase());
+        suggestions.push(icon.term);
+      }
+      if (suggestions.length >= 10) break;
+    }
+    res.json(suggestions);
+  } catch (error) {
+    console.error("Error fetching suggestions:", error);
+    res.status(500).json([]);
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
