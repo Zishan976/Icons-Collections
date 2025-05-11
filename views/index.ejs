@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Icon Collection</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Icon Collection</h1>
+      <form
+        id="searchForm"
+        action="/search"
+        method="post"
+        aria-label="Search icons form"
+      >
+        <!-- <label for="search" class="visually-hidden">Search icons</label> -->
+        <input
+          type="text"
+          id="search"
+          name="searchTerm"
+          placeholder="Enter keyword to search icons"
+          required
+          aria-required="true"
+          aria-describedby="searchHelp"
+          value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>"
+        />
+        <button type="submit">Search</button>
+      </form>
+      <div id="searchHelp" class="message">Search for icons by keyword.</div>
+
+      <div id="loading" class="message" style="display: none">Loading...</div>
+
+      <% if (typeof error !== 'undefined') { %>
+      <div class="message" style="color: red"><%= error %></div>
+      <% } %> <% if (typeof icons !== 'undefined' && icons.length > 0) { %>
+      <div class="icons" role="list" aria-label="Search results">
+        <% icons.forEach(function(icon) { %>
+        <div class="icon" role="listitem" tabindex="0" aria-label="Icon">
+          <img
+            src="<%= icon.thumbnail_url %>"
+            alt="<%= icon.description || 'icon' %>"
+            loading="lazy"
+          />
+          <% if (icon.attribution) { %>
+          <div class="attribution"><%= icon.term %></div>
+          <% } %>
+        </div>
+        <% }); %>
+      </div>
+      <% } else if (typeof icons !== 'undefined') { %>
+      <div class="message">
+        No icons found for your search. Please try another keyword.
+      </div>
+      <% } %>
+    </div>
+  </body>
+</html>
