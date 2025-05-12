@@ -61,7 +61,7 @@ app.get("/suggestions", async (req, res) => {
   if (!query) {
     return res.json([]);
   }
-  const url = `https://api.thenounproject.com/v2/icon?query=${query}&limit=10`;
+  const url = `https://api.thenounproject.com/v2/icon?query=${query}`;
   const request_data = {
     url: url,
     method: "GET",

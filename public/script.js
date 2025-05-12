@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
       searchInput.value = text;
       clearSuggestions();
       searchInput.focus();
+      // Submit the form automatically on suggestion click
+      searchForm.submit();
     });
     div.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
